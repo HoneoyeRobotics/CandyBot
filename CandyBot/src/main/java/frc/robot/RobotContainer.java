@@ -5,8 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Shooter;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -20,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain drivetrain;
+  private final Shooter shooter;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -28,12 +32,14 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    shooter = new Shooter();
     drivetrain = new Drivetrain();
     drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, 
       () -> m_driverController.getLeftY(), 
       () -> m_driverController.getRightTriggerAxis() - m_driverController.getLeftTriggerAxis() , 
       () -> m_driverController.rightBumper().getAsBoolean()));
 
+      shooter.setDefaultCommand(new Shoot(shooter, () -> MathUtil.applyDeadband( m_driverController.getRightY(), 0.05)));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -49,7 +55,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-
+    m_driverController.b().whileTrue(new Shoot(shooter, () -> 1.0));
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     // new Trigger(m_exampleSubsystem::exampleCondition)
