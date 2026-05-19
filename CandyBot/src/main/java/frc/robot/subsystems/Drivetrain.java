@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
   private DifferentialDrive differentialDrive;
@@ -18,8 +19,8 @@ public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
   public Drivetrain() {
     // declare motor controllers
-    leftMotorController = new WPI_TalonSRX(1);
-    rightMotorController = new WPI_TalonSRX(2);
+    leftMotorController = new WPI_TalonSRX(Constants.CanIDs.LeftDriveMotor);
+    rightMotorController = new WPI_TalonSRX(Constants.CanIDs.RightDriveMotor);
 
     // set the right side as inverted
     rightMotorController.setInverted(true);

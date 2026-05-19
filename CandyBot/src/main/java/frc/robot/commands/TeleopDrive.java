@@ -46,8 +46,8 @@ public class TeleopDrive extends Command {
     //if they are holding the go fast button, do not slow it down.
     if(goFastSupplier.getAsBoolean() == false){
       //divide speed in half
-      forwardSpeed = forwardSpeed / 2;
-      turnSpeed = turnSpeed / 2;
+      forwardSpeed = forwardSpeed * 0.75;
+      turnSpeed = turnSpeed * 0.75;
     }
 
     drivetrain.drive(forwardSpeed, turnSpeed);
