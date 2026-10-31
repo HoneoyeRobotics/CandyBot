@@ -18,9 +18,13 @@ public final class Constants {
   }
 
 public static class CanIDs{
+  // left side: Talon SRX (BLDrive 10, FLDrive 11)
   public static final int LeftDrive = 10;
-  public static final int RightDrive = 11;
-  public static final int Shooter = 8;
-  public static final int Feeder = 16;
+  public static final int LeftDriveFollower = 11;
+  // right side: Victor SPX (FRDrive 8, BRDrive 16)
+  public static final int RightDrive = 8;
+  public static final int RightDriveFollower = 16;
+  // public static final int Shooter = 8;
+  // public static final int Feeder = 16;
 }
 }

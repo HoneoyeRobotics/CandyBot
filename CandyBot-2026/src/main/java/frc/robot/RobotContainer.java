@@ -5,12 +5,13 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.FeedAndShoot;
-import frc.robot.commands.RunFeeder;
-import frc.robot.commands.RunShooter;
+// import frc.robot.commands.FeedAndShoot;
+// import frc.robot.commands.RunFeeder;
+// import frc.robot.commands.RunShooter;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Shooter;
+// import frc.robot.subsystems.Shooter;
+// import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Drivetrain drivetrain;
-  private final Shooter shooter;
+  // private final Shooter shooter;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -34,10 +35,13 @@ public class RobotContainer {
   public RobotContainer() {
 
     drivetrain = new Drivetrain();
-    shooter = new Shooter();
+    // shooter = new Shooter();
     drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, 
-      () -> m_driverController.getLeftY() * -1, 
-      () -> m_driverController.getRightTriggerAxis() - m_driverController.getLeftTriggerAxis() , 
+      // TeleopDrive already flips this so forward on the stick drives forward
+      () -> m_driverController.getLeftY(),
+      () -> m_driverController.getLeftX(),
+      // Triggers to steer
+      //() -> m_driverController.getRightTriggerAxis() - m_driverController.getLeftTriggerAxis() , 
       () -> m_driverController.rightBumper().getAsBoolean()
       //if the left stick is 90% or higher in the direction that it is moving, then go 100% speed rather than slowing down.
       //() -> m_driverController.getLeftY() > 0.96 || m_driverController.getLeftY() < -0.96 
@@ -61,14 +65,14 @@ public class RobotContainer {
     // m_driverController.leftBumper().whileTrue(new RunFeeder(shooter,() -> 1));
     // m_driverController.a().whileTrue(new RunShooter(shooter,() -> 1));
 
-    m_driverController.a().whileTrue(new FeedAndShoot(shooter, 0.5));
-    m_driverController.y().whileTrue(new FeedAndShoot(shooter, 1));
-    m_driverController.b().whileTrue(new FeedAndShoot(shooter, 0.75));
+    // m_driverController.y().whileTrue(new FeedAndShoot(shooter, 1));
+    // m_driverController.b().whileTrue(new FeedAndShoot(shooter, 0.75));
+    // m_driverController.a().whileTrue(new FeedAndShoot(shooter, 0.5));
 
-    new Trigger(() -> m_driverController.getRawAxis(5) > 0.05 || m_driverController.getRawAxis(5) < -0.05)
+    // new Trigger(() -> m_driverController.getRawAxis(5) > 0.05 || m_driverController.getRawAxis(5) < -0.05)
     
     
-    .whileTrue(new RunFeeder(shooter, () -> m_driverController.getRawAxis((5))));
+    // .whileTrue(new RunFeeder(shooter, () -> MathUtil.inputModulus(m_driverController.getRawAxis(5),-0.5,0.5)));
   }
 
 }

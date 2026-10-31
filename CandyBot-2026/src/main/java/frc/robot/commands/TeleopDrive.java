@@ -42,8 +42,8 @@ public class TeleopDrive extends Command {
   
 double forwardStick = forwardSpeedSupplier.getAsDouble();
     //apply deadband to speeds returned from the joystick
-    double forwardSpeed = (-MathUtil.applyDeadband(forwardStick, 0.05)) * Math.abs((-MathUtil.applyDeadband(
-      forwardStick, 0.05)));
+    double forwardSpeed = (-MathUtil.applyDeadband(forwardStick, 0.05));
+    // * Math.abs((-MathUtil.applyDeadband(       forwardStick, 0.05)));
 
     SmartDashboard.putNumber("Speed", forwardSpeed);
     SmartDashboard.putNumber("forwardStick", forwardStick);
@@ -51,15 +51,24 @@ double forwardStick = forwardSpeedSupplier.getAsDouble();
 
     double turnSpeed = -MathUtil.applyDeadband(turnSpeedSupplier.getAsDouble(), 0.05);
     //if they are holding the go fast button, do not slow it down.
-    //if(goFastSupplier.getAsBoolean() == false){
-    //   //divide speed in half
-    //   forwardSpeed = forwardSpeed / 2;
-    //   turnSpeed = turnSpeed / 2;
-    // }
+    if(goFastSupplier.getAsBoolean() == false){
+      //divide speed in half
+      forwardSpeed = forwardSpeed / 2;
+      turnSpeed = turnSpeed * 0.66;
+    }
+
+    SmartDashboard.putNumber("Drive/Turn Stick", turnSpeedSupplier.getAsDouble());
+    SmartDashboard.putBoolean("Drive/Go Fast", goFastSupplier.getAsBoolean());
+    SmartDashboard.putNumber("Drive/Final Forward", forwardSpeed);
+    SmartDashboard.putNumber("Drive/Final Turn", turnSpeed);
+    SmartDashboard.putNumber("Drive/TeleopDrive Loops", ++loopCount);
 
     drivetrain.drive(forwardSpeed, turnSpeed);
 
   }
+
+  // counts up while the command runs, so you can see it is actually executing
+  private int loopCount = 0;
 
   // Called once the command ends or is interrupted.
   @Override
